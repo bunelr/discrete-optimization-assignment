@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if $1; then
+if [ "$1" = "1" ]; then
 
         make clean-all
 
@@ -14,6 +14,7 @@ if $1; then
 
         if ! ./testResults.py; then
                 exit 3
+        fi
 fi
 
 make clean-all
