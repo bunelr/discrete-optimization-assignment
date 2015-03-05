@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
 from flaskext.uploads import configure_uploads, patch_request_class, UploadSet, UploadNotAllowed
+from flask.ext.basicauth import BasicAuth
+
 from werkzeug import secure_filename
 
 
@@ -11,7 +13,10 @@ archives = UploadSet(extensions=['zip'], default_dest = lambda app: app.config['
 configure_uploads(app, archives)
 patch_request_class(app, size = 5*1024*1024)
 
+basic_auth = BasicAuth(app)
+
 @app.route('/submit', methods=['GET', 'POST'])
+@basic_auth.required
 def upload():
     if (request.method == 'POST') and \
        ('code' in request.files) and \
@@ -24,7 +29,6 @@ def upload():
             filename = archives.save(request.files['code'], folder=clean_path, name='code.zip')
         except UploadNotAllowed:
             return render_template('fuck_up.html', reason="Problem with the upload")
-
 
         return render_template('ok.html')
     elif(request.method == 'GET'):
