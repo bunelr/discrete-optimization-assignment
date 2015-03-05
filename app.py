@@ -74,17 +74,17 @@ def provide_ressources(work_directory, lang):
         c_files = ['Makefile', 'run.sh']
         c_ressources_dir = os.path.join(app.config['RESSOURCE_FOLDER'], 'c')
         for f in c_files:
-            shutil.copyfile(os.path.join(c_ressources_dir, f), os.path.join(work_directory,f))
+            shutil.copy2(os.path.join(c_ressources_dir, f), os.path.join(work_directory,f))
     elif lang == 'python':
         python_files  = ['run.sh']
         python_ressources_dir = os.path.join(app.config['RESSOURCE_FOLDER'], 'python')
         for f in python_files:
-            shutil.copyfile(os.path.join(python_ressources_dir, f), os.path.join(work_directory,f))
+            shutil.copy2(os.path.join(python_ressources_dir, f), os.path.join(work_directory,f))
 
     common_ressources_dir = os.path.join(app.config['RESSOURCE_FOLDER'], 'common')
     common_files = ['metroEdgeDist.txt', 'testResults.py']
     for f in common_files:
-        shutil.copyfile(os.path.join(common_ressources_dir, f), os.path.join(work_directory,f))
+        shutil.copy2(os.path.join(common_ressources_dir, f), os.path.join(work_directory,f))
 
 def do_the_run(work_dir):
     # Do it by printing
@@ -99,7 +99,7 @@ def handle_bad(return_code):
                5: "The program errored while running with the print flag off"}
     return render_template('fuck_up.html', reason=reasons[return_code])
 
-def handle_good(work_directory):
+def handle_good(work_directory, username, filename):
     runtime_file = os.path.join(work_directory, 'runtime.txt')
     with open(runtime_file,'r') as rf:
         runtime = rf.read()
@@ -107,4 +107,4 @@ def handle_good(work_directory):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug = True, use_reloader = False)

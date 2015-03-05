@@ -3,7 +3,7 @@
 import os
 import sys
 
-path = "./"
+path = ""
 
 fwresult = [value.split(" ") for value in open(path+"fw.txt").read().split("\n")[:-1]]
 
@@ -20,4 +20,3 @@ print
 print "bf == dijkstra"
 print bfresult == dijresult
 print
-
