@@ -3,7 +3,7 @@ For the C part:
         Elements needed in the folder:
                 - Source code (from the user zip)
                 - run.sh and Makefile (from the ressources/c folder)
-                - metroEdgeDist.txt and testResults.py (from the ressources/common folder)
+                - *_truth.txt, metroEdgeDist.txt and testResults.py (from the ressources/common folder)
 
         Where to run:
                 from inside the folder do "./run.sh do_check"
@@ -25,7 +25,7 @@ For the python part:
         Elements needed in the folder:
                 - Source code (from the user zip), should have a main.py
                 - run.sh (from the ressources/python folder)
-                - metroEdgeDist.txt and testResults.py (from tthe ressources.common folder)
+                - *_truth.txt, metroEdgeDist.txt and testResults.py (from tthe ressources.common folder)
 
         Where to run:
                 from inside the folder do "./run.sh do_check"
