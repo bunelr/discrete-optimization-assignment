@@ -5,6 +5,7 @@ import shutil
 import os
 import zipfile
 import subprocess
+import json
 
 from werkzeug import secure_filename
 
@@ -49,7 +50,7 @@ def upload():
         return_code = do_the_run(work_directory)
 
         if return_code != 0:
-            return handle_bad(return_code)
+            return handle_bad(return_code, work_directory)
         else:
             return handle_good(work_directory, username, filename)
 
@@ -86,10 +87,12 @@ def provide_ressources(work_directory, lang):
     for f in common_files:
         shutil.copy2(os.path.join(common_ressources_dir, f), os.path.join(work_directory,f))
 
+
 def do_the_run(work_dir):
     # Do it by printing
     p = subprocess.Popen(['/bin/bash', 'run.sh', '1'], cwd = work_dir)
     return p.wait()
+
 
 def handle_bad(return_code):
     reasons = {1: "Could not build with the print flag on",
@@ -99,11 +102,34 @@ def handle_bad(return_code):
                5: "The program errored while running with the print flag off"}
     return render_template('fuck_up.html', reason=reasons[return_code])
 
+
 def handle_good(work_directory, username, filename):
     runtime_file = os.path.join(work_directory, 'runtime.txt')
     with open(runtime_file,'r') as rf:
         runtime = rf.read()
+
+    results = get_values(runtime)
+    key = "-".join([username, filename])
+
+    with open(app.config['HALL_OF_FAME'], 'r') as hall_of_fame:
+        hall = json.load(hall_of_fame)
+
+    hall_of_fame[key] = results
+
+    with open(app.config['HALL_OF_FAME'], 'w') as hall_of_fame:
+        hall = json.dump(hall_of_fame)
+
+
     return render_template('ok.html', runtime = runtime)
+
+def get_values(runtime_txt):
+    lines = runtime_txt.splitlines()
+    dij = float(lines[0].split()[1])
+    bel = float(lines[1].split()[1])
+    flo = float(lines[2].split()[1])
+    return {"dij" : dij,
+            "bel" : bel,
+            "flo" : flo}
 
 
 if __name__ == '__main__':
