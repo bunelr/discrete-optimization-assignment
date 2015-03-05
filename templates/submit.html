@@ -2,6 +2,22 @@
   <body>
     <h1> Submission Page </h1>
 
+    <h2> Formating <h2>
+    <h3> Input/Outputs <h3>
+    Your code should look for the metroEdgeDist.txt in the current folder.
+    For example using:
+    string filename = "metroEdgeDist.txt";
+    ifstream instream(filename.c_str());
+
+    The same way, you should output all your files in the current directory: all the dijkstra%d.txt, bf%d.txt, fw.txt and runtime.txt
+
+    <h3> Code in the zip file <h3>
+    All your code should be in the main folder of the zip file.
+    For example, the zip should contain:
+    ./main.cpp
+    ./dijkstra.hpp
+    ./dijkstra.cpp
+
     <form method=POST enctype=multipart/form-data action="/submit">
       <p> <label for='username'> Name: </label> <input type=text name=username> </p>
       <p><input type=file name=code></p>
