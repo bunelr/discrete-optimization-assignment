@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if $1; then
+if [ "$1" = 1 ]; then
 
         if ! python -c "from main import run;run(1)"; then
                 exit 4
