@@ -1,0 +1,20 @@
+For the C part:
+
+        Elements needed in the folder:
+                - Source code (from the user zip)
+                - run.sh and Makefile (from the ressources/c folder)
+                - metroEdgeDist.txt and testResults.py (from the ressources/common folder)
+
+        Where to run:
+                from inside the folder do "./run.sh do_check"
+
+        Argument:
+                - do_check: set to 1 if you want to run the program with the DOPRINT flag and test if the result is correct or not. if set to 0, will only run to program to outpur the runtime.txt file.
+
+        Return codes:
+                - 0 : everything is ok, can look at the runtime.txt for timing.
+                - 1 : could not make with the print flag on.
+                - 2 : could not make without the print flag on.
+                - 3 : results writen by the program are not correct
+                - 4 : error while running the program with print flag on
+                - 5 : error while running the program with print flag off 
