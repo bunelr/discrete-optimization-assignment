@@ -4,6 +4,7 @@ from flask.ext.basicauth import BasicAuth
 import shutil
 import os
 import zipfile
+import subprocess
 
 from werkzeug import secure_filename
 
@@ -45,8 +46,12 @@ def upload():
 
         provide_ressources(work_directory, lang)
 
+        return_code = do_the_run(work_directory)
 
-        return render_template('ok.html')
+        if return_code != 0:
+            return handle_bad(return_code)
+
+
     elif(request.method == 'GET'):
         return render_template('submit.html')
     else:
@@ -65,21 +70,32 @@ def unzip(folder, filename):
 def provide_ressources(work_directory, lang):
     if lang == 'C':
         c_files = ['Makefile', 'run.sh']
-        c_ressources_dir = os.path.join(app.config['ressources'], 'c')
+        c_ressources_dir = os.path.join(app.config['RESSOURCE_FOLDER'], 'c')
         for f in c_files:
             shutil.copyfile(os.path.join(c_ressources_dir, f), os.path.join(work_directory,f))
     elif lang == 'python':
         python_files  = ['run.sh']
-        python_ressources_dir = os.path.join(app.config['ressources'], 'python')
+        python_ressources_dir = os.path.join(app.config['RESSOURCE_FOLDER'], 'python')
         for f in python_files:
             shutil.copyfile(os.path.join(python_ressources_dir, f), os.path.join(work_directory,f))
 
-    common_ressources_dir = os.path.join(app.config['ressources'], 'common')
+    common_ressources_dir = os.path.join(app.config['RESSOURCE_FOLDER'], 'common')
     common_files = ['metroEdgeDist.txt', 'testResults.py']
-    for f in python_files:
+    for f in common_files:
         shutil.copyfile(os.path.join(common_ressources_dir, f), os.path.join(work_directory,f))
 
+def do_the_run(work_dir):
+    # Do it by printing
+    p = subprocess.Popen(['/bin/bash', 'run.sh', '1'], cwd = work_dir)
+    return p.wait()
 
+def handle_bad(return_code):
+    reasons = {1: "Could not build with the print flag on",
+               2: "Could not build with the print flag off",
+               3: "Results are incorrect",
+               4: "The programm errored while running with the print flag on",
+               5: "The program errored while running with the print flag off"}
+    return render_template('fuck_up.html', reason=reasons[return_code])
 
 if __name__ == '__main__':
     app.run(debug=True)
