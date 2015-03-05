@@ -2,21 +2,43 @@
   <body>
     <h1> Submission Page </h1>
 
-    <h2> Formating </h2>
+    <h2> Formating for C/C++</h2>
     <h3> Input/Outputs </h3>
     Your code should look for the metroEdgeDist.txt in the current folder.<br>
     For example using:<br>
     string filename = "metroEdgeDist.txt";<br>
     ifstream instream(filename.c_str());<br>
 
-    The same way, you should output all your files in the current directory: all the dijkstra%d.txt, bf%d.txt, fw.txt and runtime.txt
+    The same way, you should output all your files in the current directory: all the dijkstra%d.txt, bf%d.txt, fw.txt and runtime.txt<br><br>
+
+    <b> Optional but strongly recommanded:</b><br>
+    Your code should not always create the files. Mainly because it is very slow.<br>
+    Your code should use the definition of the DOPRINT variable to know if you should or not create all the files. Use it the same way you use include guards:<br><br>
+    bool print = false;<br>
+    #ifdef DOPRINT<br>
+    print = true;<br>
+    #endif<br><br>
+
+    Then in the rest of your code you can use this "print" variable to know if you should print the files or not. This can be done in any file, this DOPRINT will be defined for all your .hpp and .cpp files by our compilation script.<br><br>
+    <b>Warning</b>: the runtime.txt should be outputed <b>all the time</b> even when the DOPRINT variable is not defined.<br>
 
     <h3> Code in the zip file </h3>
     All your code should be in the main folder of the zip file.<br>
     For example, the zip should contain:<br>
     ./main.cpp<br>
     ./dijkstra.hpp<br>
-    ./dijkstra.cpp<br>
+    ./dijkstra.cpp<br><br>
+
+    <h2> Formating for python </h2>
+    Your code should contain at least one file called main.py .<br>
+    This file should contain a function called "run".<br>
+    If you want not to create all the files when timing your execution, that call function shoud take one argument which will be 0 if you shoud not print and 1 if you shoud print.<br><br>
+    <b>Warning</b>: the runtime.txt should be outputed <b>all the time</b> even when the argument is set to 0.<br><br>
+
+    The zip folder should contain all your files in the main folder.<br>
+    It should look like:<br>
+    ./main.py<br>
+    ./dijkstra.py<br><br>
 
     <form method=POST enctype=multipart/form-data action="/submit">
       <p> <label for='username'> Name: </label> <input type=text name=username> </p>
