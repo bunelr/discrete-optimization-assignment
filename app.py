@@ -48,7 +48,7 @@ def upload():
         provide_ressources(work_directory, lang)
 
         return_code, out, err = do_the_run(work_directory)
-        print return_code
+
         if return_code != 0:
             return handle_bad(return_code,out, err, work_directory)
         else:
@@ -111,16 +111,20 @@ def handle_bad(return_code, out, err, work_directory):
                2: "Could not build with the print flag off",
                3: "Results are incorrect",
                4: "The programm errored while running with the print flag on",
-               5: "The program errored while running with the print flag off"}
+               5: "The program errored while running with the print flag off",
+               6: "No runtime.txt file was created"}
     clean(work_directory)
     return render_template('fuck_up.html', reason=reasons[return_code], out = out, err = err)
 
 
 def handle_good(work_directory, username, filename):
-    runtime_file = os.path.join(work_directory, 'runtime.txt')
-    with open(runtime_file,'r') as rf:
-        runtime = rf.read()
 
+    try:
+        runtime_file = os.path.join(work_directory, 'runtime.txt')
+        with open(runtime_file,'r') as rf:
+            runtime = rf.read()
+    except:
+        return handle_bad(6, "","",work_directory)
     results = get_values(runtime)
     key = "-".join([username, filename])
 
