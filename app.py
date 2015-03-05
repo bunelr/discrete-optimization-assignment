@@ -83,7 +83,7 @@ def provide_ressources(work_directory, lang):
             shutil.copy2(os.path.join(python_ressources_dir, f), os.path.join(work_directory,f))
 
     common_ressources_dir = os.path.join(app.config['RESSOURCE_FOLDER'], 'common')
-    common_files = ['metroEdgeDist.txt', 'testResults.py']
+    common_files = ['metroEdgeDist.txt', 'testResults.py', 'groundTruth.txt']
     for f in common_files:
         shutil.copy2(os.path.join(common_ressources_dir, f), os.path.join(work_directory,f))
 
@@ -94,12 +94,13 @@ def do_the_run(work_dir):
     return p.wait()
 
 
-def handle_bad(return_code):
+def handle_bad(return_code, work_directory):
     reasons = {1: "Could not build with the print flag on",
                2: "Could not build with the print flag off",
                3: "Results are incorrect",
                4: "The programm errored while running with the print flag on",
                5: "The program errored while running with the print flag off"}
+    clean(work_directory)
     return render_template('fuck_up.html', reason=reasons[return_code])
 
 
@@ -114,12 +115,12 @@ def handle_good(work_directory, username, filename):
     with open(app.config['HALL_OF_FAME'], 'r') as hall_of_fame:
         hall = json.load(hall_of_fame)
 
-    hall_of_fame[key] = results
+    hall[key] = results
 
     with open(app.config['HALL_OF_FAME'], 'w') as hall_of_fame:
-        hall = json.dump(hall_of_fame)
+        json.dump(hall, hall_of_fame)
 
-
+    clean(work_directory)
     return render_template('ok.html', runtime = runtime)
 
 def get_values(runtime_txt):
@@ -131,6 +132,8 @@ def get_values(runtime_txt):
             "bel" : bel,
             "flo" : flo}
 
+def clean(work_directory):
+    shutil.rmtree(work_directory)
 
 if __name__ == '__main__':
     app.run(debug = True, use_reloader = False)

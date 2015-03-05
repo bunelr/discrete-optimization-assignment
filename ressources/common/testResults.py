@@ -3,18 +3,28 @@
 import os
 import sys
 
+groundTruth = []
+for line in  open("groundTruth.txt").read().split("\n")[:-1]:
+    groundTruth.append([float(val) for val in line.split()])
 
-groundTruth = [value.split(" ") for value in open("groundTruth.txt").read().split("\n")[:-1]]
+fwresult = []
+for line in  open("fw.txt").read().split("\n")[:-1]:
+    fwresult.append([float(val) for val in line.split()])
 
-fwresult = [value.split(" ") for value in open("fw.txt").read().split("\n")[:-1]]
+bfresult = []
+for i in range(0,304):
+    bfresult.append([float(val) for val in open("bf"+str(i)+".txt").read().split("\n")[-2].split()])
 
-bfresult = [open("bf"+str(i)+".txt").read().split("\n")[-2].split(" ") for i in range(0,304)]
+dijresult = []
+for i in range(0, 304):
+    dijresult.append([float(val) for val in open("dijkstra"+str(i)+".txt").read().split("\n")[-2].split() ])
 
-dijresult = [open("dijkstra"+str(i)+".txt").read().split("\n")[-2].split(" ") for i in range(0,304)]
-
-if not bfresult == groundTruth:
-        return 1
-if not fwresult == groundTruth:
-        return 1
-if not dijresult == groundTruth:
-        return 1
+if not (bfresult == groundTruth):
+    print "bf error"
+    sys.exit(1)
+if not (fwresult == groundTruth):
+    print "fw error"
+    sys.exit(1)
+if not (dijresult == groundTruth):
+    print "dijresult"
+    sys.exit(1)
