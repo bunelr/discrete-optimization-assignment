@@ -24,8 +24,8 @@ $(TARGET): $(OBJECTS_TEST)
 
 
 clean-all: clean
-	-rm dijkstra*
-	-rm bf*
+	-rm dijkstra*.txt
+	-rm bf*.txt
 	-rm fw.txt
 
 clean:
