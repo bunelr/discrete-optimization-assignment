@@ -3,7 +3,7 @@
 import os
 import sys
 
-path = "results/"
+path = "./"
 
 fwresult = [value.split(" ") for value in open(path+"fw.txt").read().split("\n")[:-1]]
 
