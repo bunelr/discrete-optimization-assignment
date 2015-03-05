@@ -60,6 +60,15 @@ def upload():
     else:
         return render_template('fuck_up.html', reason='Your submission is missing something')
 
+@app.route('/halloffame', methods=['GET'])
+@basic_auth.required
+def hall_of_fame():
+    with open(app.config['HALL_OF_FAME'], 'r') as hall_of_fame:
+        hall = json.load(hall_of_fame)
+
+    halls = [item for item in hall.iteritems()]
+    halls.sort(key = lambda it :it[1]['dij'])
+    return render_template('hall_of_fame.html', hall = halls)
 
 def unzip(folder, filename):
     zip_file = os.path.join(folder, filename)

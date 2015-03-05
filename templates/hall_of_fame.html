@@ -1,0 +1,24 @@
+<html>
+  <body>
+    <h1>Hall of fame</h1>
+
+    <table border="1px solid black">
+      <tr>
+        <th>Submission</th>
+        <th>Dijkstra</th>
+        <th>Bellman-Ford</th>
+        <th>Floyd-Marshall</th>
+      </tr>
+      {% for famer, scores in hall%}
+      <tr>
+        <td> {{famer}} </td>
+        <td> {{scores['dij']}} </td>
+        <td> {{scores['bel']}} </td>
+        <td> {{scores['flo']}} </td>
+      </tr>
+      {% endfor %}
+    </table
+
+  </body>
+
+</html>
