@@ -14,9 +14,9 @@
     <b> Optional but strongly recommanded:</b><br>
     Your code should not always create the files. Mainly because it is very slow.<br>
     Your code should use the definition of the DOPRINT variable to know if you should or not create all the files. Use it the same way you use include guards:<br><br>
-    bool print = false;<br>
+    bool do_print = false;<br>
     #ifdef DOPRINT<br>
-    print = true;<br>
+    do_print = true;<br>
     #endif<br><br>
 
     Then in the rest of your code you can use this "print" variable to know if you should print the files or not. This can be done in any file, this DOPRINT will be defined for all your .hpp and .cpp files by our compilation script.<br><br>
@@ -32,8 +32,17 @@
     <h2> Formating for python </h2>
     Your code should contain at least one file called main.py .<br>
     This file should contain a function called "run".<br>
-    If you want not to create all the files when timing your execution, that call function shoud take one argument which will be 0 if you shoud not print and 1 if you shoud print.<br><br>
-    <b>Warning</b>: the runtime.txt should be outputed <b>all the time</b> even when the argument is set to 0.<br><br>
+    If you want not to create all the files when timing your execution, that call function shoud take one argument which will be false if you shoud not print and true if you shoud print.<br>
+    The function should look like:<br><br>
+    def run(do_print):<br>
+    &#160;&#160;#some code<br>
+    &#160;&#160;if do_print:<br>
+    &#160;&#160;&#160;&#160;outputFile = open(outputFileName)<br>
+    &#160;&#160;&#160;&#160;# print the data in the file<br>
+
+    <br><br>
+
+    <b>Warning</b>: the runtime.txt should be outputed <b>all the time</b> even when the argument is set to false.<br><br>
 
     The zip folder should contain all your files in the main folder.<br>
     It should look like:<br>
