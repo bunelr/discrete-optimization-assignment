@@ -50,6 +50,8 @@ def upload():
 
         if return_code != 0:
             return handle_bad(return_code)
+        else:
+            return handle_good(work_directory, username, filename)
 
 
     elif(request.method == 'GET'):
@@ -96,6 +98,13 @@ def handle_bad(return_code):
                4: "The programm errored while running with the print flag on",
                5: "The program errored while running with the print flag off"}
     return render_template('fuck_up.html', reason=reasons[return_code])
+
+def handle_good(work_directory):
+    runtime_file = os.path.join(work_directory, 'runtime.txt')
+    with open(runtime_file,'r') as rf:
+        runtime = rf.read()
+    return render_template('ok.html', runtime = runtime)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
