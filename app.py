@@ -47,10 +47,10 @@ def upload():
 
         provide_ressources(work_directory, lang)
 
-        return_code = do_the_run(work_directory)
-
+        return_code, out, err = do_the_run(work_directory)
+        print return_code
         if return_code != 0:
-            return handle_bad(return_code, work_directory)
+            return handle_bad(return_code,out, err, work_directory)
         else:
             return handle_good(work_directory, username, filename)
 
@@ -99,18 +99,21 @@ def provide_ressources(work_directory, lang):
 
 def do_the_run(work_dir):
     # Do it by printing
-    p = subprocess.Popen(['/bin/bash', 'run.sh', '1'], cwd = work_dir)
-    return p.wait()
+    p = subprocess.Popen(['/bin/bash', 'run.sh', '1'], cwd = work_dir, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+    out, err =  p.communicate()
 
+    return_code = p.returncode
 
-def handle_bad(return_code, work_directory):
+    return return_code, out, err
+
+def handle_bad(return_code, out, err, work_directory):
     reasons = {1: "Could not build with the print flag on",
                2: "Could not build with the print flag off",
                3: "Results are incorrect",
                4: "The programm errored while running with the print flag on",
                5: "The program errored while running with the print flag off"}
     clean(work_directory)
-    return render_template('fuck_up.html', reason=reasons[return_code])
+    return render_template('fuck_up.html', reason=reasons[return_code], out = out, err = err)
 
 
 def handle_good(work_directory, username, filename):
