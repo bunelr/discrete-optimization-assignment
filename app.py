@@ -26,7 +26,8 @@ def upload():
        ('code' in request.files) and \
        ('username' in request.form) and \
        (request.files['code'].filename != '') and \
-       request.form['username']!= '':
+       (request.form['username']!= '') and \
+       (request.form['lang'] in ['C','python']):
 
 
         try:
@@ -39,6 +40,10 @@ def upload():
         user_folder = app.config['SUBMISSION_FOLDER']
 
         work_directory = unzip(user_folder, filename)
+
+        lang = request.form['lang']
+
+        provide_ressources(work_directory, lang)
 
 
         return render_template('ok.html')
@@ -56,6 +61,25 @@ def unzip(folder, filename):
     content = os.listdir(user_dir)
     container = [name for name in content if not name.endswith('.zip')][0]
     return os.path.join(user_dir, container)
+
+def provide_ressources(work_directory, lang):
+    if lang == 'C':
+        c_files = ['Makefile', 'run.sh']
+        c_ressources_dir = os.path.join(app.config['ressources'], 'c')
+        for f in c_files:
+            shutil.copyfile(os.path.join(c_ressources_dir, f), os.path.join(work_directory,f))
+    elif lang == 'python':
+        python_files  = ['run.sh']
+        python_ressources_dir = os.path.join(app.config['ressources'], 'python')
+        for f in python_files:
+            shutil.copyfile(os.path.join(python_ressources_dir, f), os.path.join(work_directory,f))
+
+    common_ressources_dir = os.path.join(app.config['ressources'], 'common')
+    common_files = ['metroEdgeDist.txt', 'testResults.py']
+    for f in python_files:
+        shutil.copyfile(os.path.join(common_ressources_dir, f), os.path.join(work_directory,f))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
