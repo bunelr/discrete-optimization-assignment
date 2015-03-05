@@ -101,7 +101,8 @@ def do_the_run(work_dir):
     # Do it by printing
     p = subprocess.Popen(['/bin/bash', 'run.sh', '1'], cwd = work_dir, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
     out, err =  p.communicate()
-
+    out = out.decode('utf-8').strip()
+    err = err.decode('utf8').strip()
     return_code = p.returncode
 
     return return_code, out, err
