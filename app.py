@@ -44,7 +44,8 @@ def upload():
 
         try:
             work_directory = unzip(user_folder, filename)
-        except:
+        except Exception as e:
+            clean_files(user_folder)
             return render_template('fuck_up.html', reason="Your zip file is not formatted correcly, check the submit page")
 
         lang = request.form['lang']
@@ -87,7 +88,7 @@ def unzip(folder, filename):
     content = os.listdir(user_dir)
     containers = [name for name in content if (not name.endswith('.zip') and not name=='__MACOSX')]
     if len(containers)==1 and os.path.isdir(os.path.join(user_dir, containers[0])):
-        return os.path.join(user_dir, container)
+        return os.path.join(user_dir, containers[0])
     else:
         raise Exception('Bad submission.')
 
@@ -163,6 +164,17 @@ def get_values(runtime_txt):
 
 def clean(work_directory):
     shutil.rmtree(work_directory)
+
+def clean_files(user_dir):
+    content = os.listdir(user_dir)
+    content = [f for f in content if not f.endswith('.zip')]
+    for f in content:
+        p = os.path.join(user_dir, f)
+        if os.path.isfile(p):
+            os.remove(p)
+        elif os.path.isdir(p):
+            shutil.rmtree(p)
+
 
 if __name__ == '__main__':
     app.run(debug = True, use_reloader = False, port=8000)
