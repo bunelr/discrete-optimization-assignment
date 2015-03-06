@@ -24,15 +24,19 @@
     Your code should not always create the files. Mainly because it is very slow.<br>
     Your code should use the definition of the DOPRINT variable to know if you should or not create all the files. Use it the same way you use include guards:<br><br>
     <pre>
-    bool do_print = false;
-    #ifdef DOPRINT
-    do_print = true;
-    #endif
+    int main(){
+      bool do_print = false;
+      #ifdef DOPRINT
+      do_print = true;
+      #endif
 
-    // some code
+      // you can pass it as an argument to your function to know whether you should print or not
+      dijkstra(graph, ..., do_print);
 
-    if(do_print) {
+      // and/or use it directly in your main function
+      if(do_print) {
         // print the data in the file
+      }
     }
     </pre><br>
 
