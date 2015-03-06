@@ -6,6 +6,7 @@ import os
 import zipfile
 import subprocess
 import json
+from statsd import statsd
 
 from werkzeug import secure_filename
 
@@ -49,6 +50,7 @@ def upload():
 
         return_code, out, err = do_the_run(work_directory)
 
+        statsd.increment('assignment.submission',tags=["result:"+str(return_code),"lang:"+lang])
         if return_code != 0:
             return handle_bad(return_code,out, err, work_directory)
         else:
@@ -56,18 +58,22 @@ def upload():
 
 
     elif(request.method == 'GET'):
+        statsd.increment('page.views',tags=["page:submit"])
         return render_template('submit.html')
     else:
+        statsd.increment('page.views',tags=["page:bad_upload"])
         return render_template('fuck_up.html', reason='Your submission is missing something')
 
 @app.route('/halloffame', methods=['GET'])
 @basic_auth.required
 def hall_of_fame():
+    statsd.increment('page.views',tags=["page:halloffame"])
     with open(app.config['HALL_OF_FAME'], 'r') as hall_of_fame:
         hall = json.load(hall_of_fame)
 
     halls = [item for item in hall.iteritems()]
     halls.sort(key = lambda it :it[1]['dij'])
+    statsd.gauge('assignment.submission_nb', len(halls))
     return render_template('hall_of_fame.html', hall = halls)
 
 def unzip(folder, filename):
