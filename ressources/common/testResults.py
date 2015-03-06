@@ -20,11 +20,11 @@ for i in range(0, 304):
     dijresult.append([float(val) for val in open("dijkstra"+str(i)+".txt").read().split("\n")[-2].split() ])
 
 if not (bfresult == groundTruth):
-    print "bf error"
+    print "[ERROR]: Your Bellman-Ford results are incorrect"
     sys.exit(1)
 if not (fwresult == groundTruth):
-    print "fw error"
+    print "[ERROR]: Your Floyd-Warshall results are incorrect"
     sys.exit(1)
 if not (dijresult == groundTruth):
-    print "dijresult"
+    print "[ERROR]: Your Dijkstra results are incorrect"
     sys.exit(1)
