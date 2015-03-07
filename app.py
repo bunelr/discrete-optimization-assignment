@@ -126,7 +126,8 @@ def handle_bad(return_code, out, err, work_directory):
                3: "Results are incorrect",
                4: "The programm errored while running with the print flag on",
                5: "The program errored while running with the print flag off",
-               6: "No runtime.txt file was created"}
+               6: "No runtime.txt file was created",
+               7: "Couldn't read the runtime.txt file, verify that it is properly formatted"}
     clean(work_directory)
     return render_template('fuck_up.html', reason=reasons[return_code], out = out, err = err)
 
@@ -139,7 +140,12 @@ def handle_good(work_directory, username, filename):
             runtime = rf.read()
     except:
         return handle_bad(6, "","",work_directory)
-    results = get_values(runtime)
+
+    try:
+        results = get_values(runtime)
+    except:
+        return handle_bad(7, "", "", work_directory)
+
     key = "-".join([username, filename])
 
     with open(app.config['HALL_OF_FAME'], 'r') as hall_of_fame:
