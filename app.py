@@ -45,7 +45,7 @@ def upload():
         try:
             work_directory = unzip(user_folder, filename)
         except Exception as e:
-            clean_files(user_folder)
+            clean_files(os.path.join(user_folder,filename.split('/')[0]))
             return render_template('fuck_up.html', reason="Your zip file is not formatted correcly, check the submit page")
 
         lang = request.form['lang']
