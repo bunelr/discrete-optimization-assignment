@@ -76,9 +76,11 @@ def hall_of_fame():
         hall = json.load(hall_of_fame)
 
     halls = [item for item in hall.iteritems()]
-    halls.sort(key = lambda it :it[1]['dij'])
+    dij = sorted(halls, key = lambda it :it[1]['dij'])
+    bel = sorted(halls, key = lambda it :it[1]['bel'])
+    flo = sorted(halls, key = lambda it :it[1]['flo'])
     statsd.gauge('assignment.submission_nb', len(halls))
-    return render_template('hall_of_fame.html', hall = halls)
+    return render_template('hall_of_fame.html', dij=dij, bel=bel, flo=flo)
 
 def unzip(folder, filename):
     zip_file = os.path.join(folder, filename)
