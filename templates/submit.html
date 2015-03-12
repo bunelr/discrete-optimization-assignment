@@ -8,6 +8,40 @@
     &#160;&#160;&#160;&#160;- for Bellman-Ford the mean running time to do the computation for one source to all other points.<br>
     &#160;&#160;&#160;&#160;- for Floyd-Warshall the time to do the computation for all source to all other points.<br><br>
 
+    An example on how to achieve this with c++ code:<br>
+    <pre>
+    // Required include for the clock_t and CLOCKS_PER_SEC variable and the clock() function.
+    #include &ltctime&gt
+
+
+    // in your main function
+    int source;
+    clock_t start, end;
+
+    begin = clock();
+    for(source=0; source&ltnombreNode; ++source) {
+        dijkstra(yourGraph, source);
+    }
+    end=clock();
+    // Get the overall time and divide by the number of sources
+    double dijkstraTime = (double(end-begin)/CLOCKS_PER_SEC) / 304.0;
+
+    begin = clock();
+    for(source=0; source&ltnombreNode; ++source) {
+        bellmanFord(yourGraph, source);
+    }
+    end=clock();
+    // Get the overall time and divide by the number of sources
+    double bellmanFordTime = double(end-begin)/CLOCKS_PER_SEC / 304.0;
+
+    begin = clock();
+    floydWarshall(yourGraph);
+    end=clock();
+    double floydWarshallTime = double(end-begin)/CLOCKS_PER_SEC;
+    </pre><br>
+
+    <b>These dijkstraTime, bellmanFordTime and floydWarshallTime variables are the ones you should report in your runtime.txt file.</b><br><br>
+
 
     <h2> Formating for C/C++</h2>
     <h3> Input/Outputs </h3>
@@ -51,7 +85,10 @@
     ./code/main.cpp
     ./code/dijkstra.hpp
     ./code/dijkstra.cpp
-    </pre><br>
+    </pre>
+
+    When you open your zipped folder in the unzipping assistant, you should only see one folder containing your sources, not all your sources directly.<br>
+    Also only the <b>zip</b> format is available (not rar!).<br>
 
     <h2> Formating for python </h2>
     Your code should contain at least one file called main.py .<br>
@@ -78,7 +115,9 @@
     <pre>
     ./code/main.py
     ./code/dijkstra.py
-    </pre><br>
+    </pre>
+    When you open your zipped folder in the unzipping assistant, you should only see one folder containing your sources, not all your sources directly.<br>
+    Also only the <b>zip</b> format is available (not rar!).<br>
 
     <form method=POST enctype=multipart/form-data action="/submit">
       <p> <label for='username'> Name: </label> <input type=text name=username> </p>
