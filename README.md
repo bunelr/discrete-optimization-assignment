@@ -49,6 +49,7 @@ stdout_logfile = /home/user/log.txt
 redirect_stderr = true                                                ; Save stderr in the same log
 environment=LANG=en_US.UTF-8,LC_ALL=en_US.UTF-8
 ````
+* Install all the things that may be required by the students: make, gcc, ...
 
 ## Some notes:
 * In the repo, the app is configured in debug mode. To deploy it, you should change the last line from
@@ -65,3 +66,5 @@ to
 
 * You should also change the password in the `config.py` file.
 * Before the first run, you may have to create an empty halloffame file and submission directory: `echo "{}" > halloffame.json && mkdir submission`
+
+* There is some basic monitoring going on, if you want to use it, you can install an Agent from Datadog. It is not required.
