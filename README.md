@@ -11,7 +11,7 @@ Stop being so blatantly insecure (ie, running arbitrary code uploaded by people 
 
 ## Installation
 This is currently run on a Digital Ocean Machine.
-The description of how we run everything follows. It may nit be the simplest but it consisted in what we were familiar with.
+The description of how we run everything follows. It may not be the simplest but it consisted in what we were familiar with.
 
 * Clone the repo on your server
 * Create a python virtualenv in the app folder
