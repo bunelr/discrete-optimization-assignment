@@ -2,7 +2,7 @@
 
 if [ "$1" = 1 ]; then
 
-    if ! python -c "from main import run;run(1)"; then
+    if ! ../../../bin/python -c "from main import run;run(1)"; then
         exit 4
     fi
 
@@ -11,7 +11,7 @@ if [ "$1" = 1 ]; then
     fi
 fi
 
-if ! python -c "from main import run;run(0)"; then
+if ! ../../../bin/python -c "from main import run;run(0)"; then
     exit 5
 fi
 
